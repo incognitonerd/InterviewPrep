@@ -5,7 +5,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import com.interviewprep.consumedarksky.DarkskyResponse;
 import com.interviewprep.consumegoogle.Results;
-import com.interviewprep.misc.Random;
+import com.interviewprep.misc.CodingQuestions;
 import com.interviewprep.services.Services;
 
 @SpringBootApplication
@@ -23,7 +23,7 @@ public class RunApp extends SpringBootServletInitializer {
 	}
 	
 	public void random(){
-		Random r = new Random();
+		CodingQuestions r = new CodingQuestions();
 		System.out.println("sum in sumOnlyMultiples - " + r.sumOnlyMultiples(1000, 3, 5));
 		r.statistics('B');
 		System.out.println("\n\n");

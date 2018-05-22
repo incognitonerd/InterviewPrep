@@ -7,7 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class Random {
+public class CodingQuestions {
 	public int sumOnlyMultiples(int num, int lowestMultiple, int secondMutiple){
 		int sum = 0;
 		for(int i = lowestMultiple; i < num; i++){
@@ -188,5 +188,76 @@ public class Random {
 			}
 		}
 		return x;
+	}
+	
+	public int[] bubbleSort(int arr[]){
+		int n = arr.length;
+		for(int i = 0; i < n - 1; i++){
+			for(int j = 0; j < n - i - 1; j++){
+				if(arr[j] > arr[j + 1]){
+					int temp = arr[j];
+					arr[j] = arr[j + 1];
+					arr[j + 1] = temp;
+				}
+			}
+		}
+		return arr;
+	}
+	
+	public int[] reverseIntArray(int arr[]){
+		for(int i = 0; i < arr.length / 2; i++){
+			int tmp = arr[i];
+			arr[i] = arr[arr.length - i - 1];
+			arr[arr.length - i - 1] = tmp;
+		}
+		return arr;
+	}
+	
+	public String reverseString(String str){
+		String newStr = "";
+		for(int i = (str.length() - 1); i >= 0; i--){
+			System.out.println(str.charAt(i));
+			newStr += str.charAt(i);
+		}
+		return newStr;
+	}
+	
+	public int[] largestThreeNums(int[] a){
+		int i, first, second, third;
+		if(a.length < 3)
+			return null;
+		third = first = second = Integer.MIN_VALUE;
+		for(i = 0; i < a.length; i++){
+			/*
+			 * If current element is smaller than first
+			 */
+			if(a[i] > first){
+				third = second;
+				second = first;
+				first = a[i];
+			}
+			/*
+			 * If arr[i] is in between first and second then update second
+			 */
+			else if(a[i] > second){
+				third = second;
+				second = a[i];
+			} else if(a[i] > third)
+				third = a[i];
+		}
+		int[] tmp = new int[] {first, second, third};
+		System.out.println("Three largest elements are " + first + " " + second + " " + third);
+		return tmp;
+	}
+	
+	public boolean isPrime(int num){
+		if(num < 2)
+			return false;
+		int count = 0;
+		for(int i = 1; i < num; i++){
+			if(num % i == 0)
+				count++;
+		}
+		return count < 2;
 	}
 }
