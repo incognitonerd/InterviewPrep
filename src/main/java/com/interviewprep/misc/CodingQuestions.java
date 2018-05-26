@@ -190,18 +190,53 @@ public class CodingQuestions {
 		return x;
 	}
 	
-	public int[] bubbleSort(int arr[]){
-		int n = arr.length;
+	public int[] bubbleSort(int[] a){
+		int n = a.length;
 		for(int i = 0; i < n - 1; i++){
 			for(int j = 0; j < n - i - 1; j++){
-				if(arr[j] > arr[j + 1]){
-					int temp = arr[j];
-					arr[j] = arr[j + 1];
-					arr[j + 1] = temp;
+				if(a[j] > a[j + 1]){
+					int tmp = a[j];
+					a[j] = a[j + 1];
+					a[j + 1] = tmp;
 				}
 			}
 		}
-		return arr;
+		return a;
+	}
+	
+	public int[] quickSort(int[] a, int first, int last){
+		if(first < last){
+			/*
+			 * pi is partitioning index, arr[pi] is now at right place
+			 */
+			int pi = partition(a, first, last);
+			// Recursively sort elements before
+			// partition and after partition
+			quickSort(a, first, pi - 1);
+			quickSort(a, pi + 1, last);
+		}
+		return a;
+	}
+	
+	public int partition(int[] a, int first, int last){
+		int pivot = a[last];
+		int i = (first - 1); // index of smaller element
+		for(int j = first; j < last; j++){
+			// If current element is smaller than or
+			// equal to pivot
+			if(a[j] <= pivot){
+				i++;
+				// swap arr[i] and arr[j]
+				int temp = a[i];
+				a[i] = a[j];
+				a[j] = temp;
+			}
+		}
+		// swap arr[i+1] and arr[high] (or pivot)
+		int tmp = a[i + 1];
+		a[i + 1] = a[last];
+		a[last] = tmp;
+		return i + 1;
 	}
 	
 	public int[] reverseIntArray(int arr[]){
@@ -259,5 +294,76 @@ public class CodingQuestions {
 				count++;
 		}
 		return count < 2;
+	}
+	
+	public int findMissingNum(int[] A){
+		int missingNum = 0;
+		if(A.length == 1){
+			if(A[0] == 1){
+				missingNum = 2;
+			} else{
+				missingNum = 1;
+			}
+			return missingNum;
+		}
+		A = mergeSort(A);
+		if((A[0] > 1) || (A[A.length - 1] < 1)){
+			return 1;
+		}
+		missingNum = A[0];
+		Boolean isMissing = false;
+		for(int i = 1; i < A.length; i++){
+			if(A[i] > 0 && A[i - 1] < 0){
+				missingNum = 1;
+				isMissing = true;
+				break;
+			} else{
+				int tmp = A[i] - A[i - 1];
+				if(tmp > 1){
+					if(A[i - 1] < 1){
+						missingNum = 1;
+					} else{
+						missingNum = (++A[i - 1]);
+					}
+					isMissing = true;
+					break;
+				}
+			}
+		}
+		if(!isMissing){
+			missingNum = A[(A.length - 1)] + 1;
+		} else if(missingNum < 1){
+			missingNum = 1;
+		}
+		return missingNum;
+	}
+	
+	public int[] mergeSort(int[] input){
+		int N = input.length;
+		if(N <= 1)
+			return input;
+		int[] a = new int[N / 2];
+		int[] b = new int[N - N / 2];
+		for(int i = 0; i < a.length; i++)
+			a[i] = input[i];
+		for(int i = 0; i < b.length; i++)
+			b[i] = input[i + N / 2];
+		return merge(mergeSort(a), mergeSort(b));
+	}
+	
+	public int[] merge(int[] a, int[] b){
+		int[] c = new int[a.length + b.length];
+		int i = 0, j = 0;
+		for(int k = 0; k < c.length; k++){
+			if(i >= a.length)
+				c[k] = b[j++];
+			else if(j >= b.length)
+				c[k] = a[i++];
+			else if(a[i] <= b[j])
+				c[k] = a[i++];
+			else
+				c[k] = b[j++];
+		}
+		return c;
 	}
 }
